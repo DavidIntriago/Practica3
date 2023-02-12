@@ -33,8 +33,8 @@ public class PracUnidad3 {
             gde.insertarAristaE(gde.obtenerEtiqueta(1), gde.obtenerEtiqueta(4), 1000.0);
             //System.out.println(gde.caminiMinimo(1, 4));
           //  gde.caminiMinimo(5, 4).imprimir();
-            gde.algoritmoDijkstra(5).imprimir();
-//            gde.busquedaAnchura(5);
+          //  gde.algoritmoDijkstra(5).imprimir();
+//           gde.busquedaAnchura(5);
 //            System.out.println("----------------");
 //            gde.busquedaProfundidad(5);
             //System.out.println(gde.algoritmoFloyd(0, 0));

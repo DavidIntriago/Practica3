@@ -106,7 +106,7 @@ public abstract class Grafo {
                 if (peso != 0) {
                     matrizAdyacencia[i][j] = peso;
                 } else {
-                    matrizAdyacencia[i][j] = 10000000.0;
+                    matrizAdyacencia[i][j] = Double.NaN;
                     System.out.println(peso);
                 }
             }
@@ -187,91 +187,36 @@ public abstract class Grafo {
         }
 
     }
-    private Double[][] pesosGrafo(Grafo grafo) throws Exception {
-        Integer vertices = grafo.numVertices();
-        Double[][] matriz = new Double[vertices][vertices];
-        for (int i = 0; i < vertices; i++) {
-            for (int j = 0; j < vertices; j++) {
-//                System.out.println((i+1)+" "+(j+1));
-                Double peso = grafo.pesoArista(i + 1, j + 1);
-                if (peso != 0) {
-                    matriz[i][j] = peso;
-                } else {
-                    matriz[i][j] = 10000000.0;
-                }
-//                System.out.println(matriz[i][j]);
-            }
-        }
-        return matriz;
-    }
-    public void caminoMinimoFloyd() throws Exception {
-        ListaEnlazada caminoFloyd = new ListaEnlazada();
-        Double[][] pesos = pesosGrafo(this);
-        Integer n = this.numVertices();
-        Integer[][] traza = new Integer[n][n];
-        Double[][] d = new Double[n][n];
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                d[i][j] = pesos[i][j];
-                traza[i][j] = -1;
-            }
-        }
-        for (int i = 0; i < n; i++) {
-            d[i][i] = 0.0;
-        }
-
-        for (int k = 0; k < n; k++) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if ((d[i][k] + d[k][j]) < d[i][j]) {
-                        d[i][j] = d[i][k] + d[k][j];
-                        traza[i][j] = k;
-                    }
-                }
-            }
-        }
-        System.out.println("\t1\t2\t3\t4\t5\t6");
-        for (int i = 0; i < n; i++) {
-            System.out.print(i + 1 + "\t");
-            for (int j = 0; j < n; j++) {
-                System.out.print(d[i][j] + "\t");
-            }
-            System.out.println("\n");
-        }
-//        return caminoFloyd;
-    }
     
-    public ListaEnlazada algoritmoDijkstra(Integer origen) throws Exception {
+
+    public ListaEnlazada Dijkstra(Integer origen) throws Exception {
 
         ListaEnlazada caminoDijkstra = new ListaEnlazada();
-
-        origen -= 1;
-        Integer s = origen;
         Integer vertices = this.numVertices();
-        Integer ultimo[] = new Integer[vertices];//ultmo vertice antes de llegar al destino
-
-        Boolean visitados[] = new Boolean[vertices];// vertices visitados
+        Integer camino[] = new Integer[vertices];
+        origen = 1- origen;
+        Integer s = origen;
+        Boolean recorrido[] = new Boolean[vertices];
 
         Double minimos[] = new Double[vertices];
-        Double pesos[][] = pesosGrafo(this); 
+        Double pesos[][] = matrizPesos(this); 
 
         for (int i = 0; i < vertices; i++) {
-            visitados[i] = false;
+            recorrido[i] = false;
             minimos[i] = pesos[s][i];
-            ultimo[i] = s;
+            camino[i] = s;
         }
 
-        visitados[s] = true;
+        recorrido[s] = true;
         minimos[s] = 0.0;
         for (int i = 0; i < vertices; i++) {
-            Integer v = minimo(vertices, visitados, minimos);
-            visitados[v] = true;
+            Integer v = minimo(vertices, recorrido, minimos);
+            recorrido[v] = true;
 
             for (int w = 0; w < vertices; w++) {
-                if (!visitados[w] && ((minimos[v] + pesos[v][w]) < minimos[w])) {
+                if (!recorrido[w] && ((minimos[v] + pesos[v][w]) < minimos[w])) {
                     minimos[w] = minimos[v] + pesos[v][w];
-                    ultimo[w] = v;
+                    camino[w] = v;
                 }
             }
             caminoDijkstra.insertar(minimos[i]);
@@ -280,11 +225,10 @@ public abstract class Grafo {
     }
 
     private Integer minimo(Integer n, Boolean[] F, Double[] D) {
-        Double maximo = 10000000.0;
         Integer v = 1;
         for (int j = 0; j < n; j++) {
-            if (!F[j] && (D[j] <= maximo)) {
-                maximo = D[j];
+            if (!F[j] && (D[j] != Double.NaN)) {
+            
                 v = j;
             }
         }

@@ -510,7 +510,7 @@ public class FrmHechos extends javax.swing.JFrame {
         if (checkDistr.isSelected()) {
             origen = Integer.parseInt(cbxOrigen.getSelectedItem().toString());
             try {
-                ListaEnlazada<Integer> lista = ca.getGnde().algoritmoDijkstra(origen);
+                ListaEnlazada<Integer> lista = ca.getGnde().Dijkstra(origen);
                 lista.imprimir();
                 String[] aux = new String[lista.getSize()];
                 for (int i = 0; i < lista.getSize(); i++) {

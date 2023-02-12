@@ -95,25 +95,27 @@ public class GrafoDirigido extends Grafo {
     }
 
     public Integer[] busquedaAnchura(Integer origen) throws Exception {
-        int vertices = this.numVertices();
+        Integer vertices = this.numVertices();
         Integer[] visitados = new Integer[vertices];
         visitados[0] = origen;
-        Integer contador = 1;
-        int i = 0;
-        boolean band = false;
+        Integer i = 0;
+        Integer contador = i+1;
+        boolean encontro = false;
         while (contador < vertices) {
-            i++;
             for (int j = 0; j < listaAdycente[origen].getSize(); j++) {
                 for (int k = 0; k < visitados.length; k++) {
                     if (visitados[k] == listaAdycente[origen].obtener(j).getDestino()) {
-                        band = true;
+                        encontro = true;
                         break;
                     } else {
-                        band = false;
+                        encontro = false;
                     }
                 }
-                if (!band) {
+                if (!encontro) {
                     visitados[contador] = listaAdycente[origen].obtener(j).getDestino();
+                    for (int n = 0; n < visitados.length; j++) {
+                        System.out.println(visitados[n]);
+                    }
                     contador++;
                 }
             }
@@ -128,6 +130,7 @@ public class GrafoDirigido extends Grafo {
             if (i > vertices) {
                 break;
             }
+            i++;
         }
         for (int j = 0; j < visitados.length; j++) {
             System.out.println(visitados[j]);
@@ -148,12 +151,12 @@ public class GrafoDirigido extends Grafo {
             i++;
             for (int j = 0; j < listaAdycente[origen].getSize(); j++) {
                 for (int k = 0; k < visitados.length; k++) {
-                    if (visitados[k] == listaAdycente[origen].obtener(j).getDestino()) {
-                        band = true;
-                        break;
-                    } else {
-                        band = false;
-                    }
+//                    if (visitados[k] == listaAdycente[origen].obtener(j).getDestino()) {
+//                        band = true;
+//                        break;
+//                    } else {
+//                        band = false;
+//                    }
                 }
                 if (!band) {
                     visitados[contador] = listaAdycente[origen].obtener(j).getDestino();
